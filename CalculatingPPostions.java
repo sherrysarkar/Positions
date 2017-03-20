@@ -11,7 +11,7 @@ public class CalculatingPPostions {
     private int indexOfLastP = 2; // everytime there's a P postion, this number is incremented.
 
     public CalculatingPPostions (double a) {
-        positions = new boolean[100000];
+        positions = new boolean[10000000];
         pPositions = new int[500];
         lastKnownP = 0;
         distToP = 0;
