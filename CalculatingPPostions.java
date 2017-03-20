@@ -1,5 +1,7 @@
 public class CalculatingPPostions {
 
+    // MAKING A CHANGE TO SEE IF I UNDERSTAND HOW GITHUBS WORKS LOL
+
     private boolean[] positions; // What is each number?
     private int[] pPositions; // List of all the pPositions
     private int lastKnownP; //  For figureOutLastP(int i) - Given a numer i, what is the last known final P position?
