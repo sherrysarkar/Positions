@@ -10,8 +10,6 @@ public class CalculatingPPostions {
 
     private int indexOfLastP = 2; // everytime there's a P postion, this number is incremented.
 
-    private int actualSize = 0;
-
     public CalculatingPPostions (double a) {
         positions = new boolean[100000];
         pPositions = new int[500];
@@ -96,12 +94,12 @@ public class CalculatingPPostions {
     }
 
     public int getActualSize() {
-        return actualSize;
+        return indexOfLastP;
     }
 
     public int getRecursion() {
-        int first = actualSize - 1;
-        int second = actualSize - 2;
+        int first = indexOfLastP - 1;
+        int second = indexOfLastP - 2;
         int rec = figureOutRecursion(first, second);
         return rec;
     }
