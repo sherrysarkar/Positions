@@ -104,4 +104,8 @@ public class CalculatingPPostions {
         return rec;
     }
 
+    public void setAlpha(double a) {
+        alpha = a;
+    }
+
 }

@@ -2,6 +2,9 @@ import java.util.Scanner;
 
 public class CutOffs {
     public static void main(String[] args) {
+
+        // for printng out P positions on demand.
+        /**
         Scanner scan = new Scanner(System.in);
         System.out.println();
         double alpha = 1;
@@ -17,16 +20,53 @@ public class CutOffs {
             System.out.println();
             System.out.println(obj.printRecursion());
         }
+        **/
 
+        // for determining sequences.
+        double[] cutoffs = determineSequences(4.333, 4.666);
 
-
-
-        //CalculatingPPostions next = new CalculatingPPostions(4);
-
-        //System.out.println(obj.getPPositions()[7]);
+        for (int i = 0; i < cutoffs.length; i++) {
+            System.out.println(cutoffs[i]);
+        }
 
 
     }
+
+    public void determineCutoff (int k) {
+        int seperation = k - 1;
+        double ratio;
+
+        for (int q = 1; q <= 20; q++) {
+
+        }
+    }
+
+    /**
+    * determines the secondary cutoffs. 
+    **/
+    public static double[] determineSequences (double lower, double upper) {
+
+        double[] cutoffs = new double[5];
+        CalculatingPPostions tester = new CalculatingPPostions(lower);
+        int previous = tester.getPPositions()[20];
+        int counter = 0;
+
+        for (double i = lower + 0.01; i < upper; i = i + 0.01 ) {
+            tester = new CalculatingPPostions(i);
+
+            if (tester.getPPositions()[20] != previous) {
+                cutoffs[counter] = i;
+                counter++;
+            }
+
+            //System.out.println(previous + " , " + tester.getPPositions()[20] );
+            previous = tester.getPPositions()[20];
+        }
+
+        return cutoffs;
+
+    }
+
 }
 
 //
