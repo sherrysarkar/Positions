@@ -3,8 +3,35 @@ import java.util.Scanner;
 public class CutOffs {
     public static void main(String[] args) {
 
-        // for printng out P positions on demand.
-        /**
+        Scanner menu = new Scanner(System.in);
+        System.out.println("hi pick one of the choices.");
+        System.out.println("1. printPpositions()");
+        System.out.println("2. determineSequences(lower, upper)");
+        System.out.println();
+
+        int choice = menu.nextInt();
+
+        if (choice == 1) {
+            printPpositions();
+        } else if (choice == 2) {
+
+            System.out.println("Lower Bound: ");
+            double lower = menu.nextDouble();
+            System.out.println("Upper Bound: ");
+            double upper = menu.nextDouble();
+            System.out.println();
+
+            double[] cutoffs = determineSequences(lower, upper);
+
+            for (int i = 0; i < cutoffs.length; i++) {
+                System.out.println(cutoffs[i]);
+            }
+
+        }
+
+    }
+
+    public static void printPpositions() {
         Scanner scan = new Scanner(System.in);
         System.out.println();
         double alpha = 1;
@@ -20,16 +47,6 @@ public class CutOffs {
             System.out.println();
             System.out.println(obj.printRecursion());
         }
-        **/
-
-        // for determining sequences.
-        double[] cutoffs = determineSequences(4.333, 4.666);
-
-        for (int i = 0; i < cutoffs.length; i++) {
-            System.out.println(cutoffs[i]);
-        }
-
-
     }
 
     public void determineCutoff (int k) {
@@ -42,7 +59,7 @@ public class CutOffs {
     }
 
     /**
-    * determines the secondary cutoffs. 
+    * determines the secondary cutoffs.
     **/
     public static double[] determineSequences (double lower, double upper) {
 
@@ -51,7 +68,7 @@ public class CutOffs {
         int previous = tester.getPPositions()[20];
         int counter = 0;
 
-        for (double i = lower + 0.01; i < upper; i = i + 0.01 ) {
+        for (double i = lower + 0.00001; i < upper; i = i + 0.01 ) {
             tester = new CalculatingPPostions(i);
 
             if (tester.getPPositions()[20] != previous) {
