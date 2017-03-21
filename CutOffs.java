@@ -59,7 +59,9 @@ public class CutOffs {
     }
 
     /**
-    * determines the secondary cutoffs.
+    * Given an interval of a recursive sequence, (for example, the interval for
+    * the sequence P_n = P_n-1 + P_n-7 is 4.333 < alpha <= 4.666), this method
+    * will find the secondary CutOffs within this interval.
     **/
     public static double[] determineSequences (double lower, double upper) {
 
@@ -68,7 +70,7 @@ public class CutOffs {
         int previous = tester.getPPositions()[20];
         int counter = 0;
 
-        for (double i = lower + 0.00001; i < upper; i = i + 0.01 ) {
+        for (double i = lower + 0.001; i <= upper; i = i + 0.001 ) {
             tester = new CalculatingPPostions(i);
 
             if (tester.getPPositions()[20] != previous) {
