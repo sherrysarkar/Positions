@@ -104,6 +104,10 @@ public class CutOffs {
 
     }
 
+    /*
+    * The hypothesis was that the cutoffs were determined by the first time
+    * a sequence of P positions followed a steady recurrence. 
+    */
     public static double testHypothesis(CalculatingPPostions obj) {
         int rec = obj.getRecursion() - 1;
 
