@@ -67,15 +67,6 @@ public class CutOffs {
         }
     }
 
-    public void determineCutoff (int k) {
-        int seperation = k - 1;
-        double ratio;
-
-        for (int q = 1; q <= 20; q++) {
-
-        }
-    }
-
     /**
     * Given an interval of a recursive sequence, (for example, the interval for
     * the sequence P_n = P_n-1 + P_n-7 is 4.333 < alpha <= 4.666), this method
@@ -106,14 +97,15 @@ public class CutOffs {
 
     /*
     * The hypothesis was that the cutoffs were determined by the first time
-    * a sequence of P positions followed a steady recurrence. 
+    * a sequence of P positions followed a steady recurrence. As it turns out,
+    * this hypothesis was FALSE.
     */
     public static double testHypothesis(CalculatingPPostions obj) {
         int rec = obj.getRecursion() - 1;
 
         for (int i = 0; i < obj.getPPositions().length - rec - 1; i++) {
             if (obj.getPPositions()[i] + obj.getPPositions()[i + rec] == obj.getPPositions()[i + rec + 1]) {
-                return (double) (obj.getPPositions()[i + rec]) / obj.getPPositions()[i]; //(obj.getPPositions()[i + rec]) / obj.getPPositions()[i]
+                return (double) (obj.getPPositions()[i + rec]) / obj.getPPositions()[i];  obj.getPPositions()[i]
             }
         }
         return 0;
