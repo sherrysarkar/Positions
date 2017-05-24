@@ -121,7 +121,7 @@ public class CutOffs {
             return false; // the lower and obj equal each other, so its not a lower bound
         }
 
-        return true;
+        return true; // CHECKING!
     }
 
 }
