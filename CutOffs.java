@@ -48,12 +48,12 @@ public class CutOffs {
             }
 
         } else if (choice == 4) {
-            double cutoff_hyp = generateCutoffs(5);
+            double cutoff_hyp = generateCutoffs(20);
             boolean bool_cutoff;
             for (int i = 0; i < 100; i++) {
                 bool_cutoff = isCutoff(cutoff_hyp);
                 System.out.println(cutoff_hyp + " " + bool_cutoff);
-                cutoff_hyp = generateCutoffs(cutoff_hyp);
+                cutoff_hyp = generateCutoffs(cutoff_hyp + 0.01);
             }
         }
 
@@ -67,7 +67,7 @@ public class CutOffs {
             CalculatingPPostions obj = new CalculatingPPostions(alpha);
             //System.out.println(obj.printRecursion());
 
-             for (int i = 1; i < 30; i++) {
+             for (int i = 1; i < 50; i++) {
                   System.out.print(obj.getPPositions()[i] + ",  ");
               }
 
@@ -121,12 +121,14 @@ public class CutOffs {
     }
 
     public static boolean isCutoff(double alpha) {
-        CalculatingPPostions obj = new CalculatingPPostions(alpha);
 
         double lower = alpha - 0.01;
+        double higher = alpha + 0.01;
         CalculatingPPostions low = new CalculatingPPostions(lower);
+        CalculatingPPostions high = new CalculatingPPostions(higher);
 
-        if (low.getPPositions()[499] == obj.getPPositions()[499]) {
+
+        if (low.getPPositions()[300] == high.getPPositions()[300]) {
             return false; // the lower and obj equal each other, so its not a upper bound
         }
 
@@ -144,7 +146,7 @@ public class CutOffs {
         //int window = 10; // just a non 1 value to start with. EDIT: I actually don't understand how windows work. So for now...
         int current_postion;
 
-        while (i < current_alpha*2) {
+        while (i < current_alpha*10) {
             current_postion = current_sequence[i];
 
             double upperBound = current_sequence[i] * current_alpha;
