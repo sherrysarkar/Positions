@@ -9,7 +9,7 @@ private int distToP;     // Distance to the last known final P position
 private double alpha;     // alpha for this object CHANGE
 private int rec;
 
-private int indexOfLastP = 2;     // everytime there's a P postion, this number is incremented.
+public int indexOfLastP = 2;     // everytime there's a P postion, this number is incremented.
 
 public CalculatingPPostions (double a) {
         positions = new boolean[10000000];
@@ -17,7 +17,7 @@ public CalculatingPPostions (double a) {
         lastKnownP = 0;
         distToP = 0;
         alpha = a;
-        calculatePositions();
+        calculate_by_window();
         final int firstP = indexOfLastP - 1; final int secondP = indexOfLastP - 2;
         rec = figureOutRecursion(firstP, secondP);
 }
@@ -72,6 +72,30 @@ public int figureOutRecursion(int first, int second) {
         }
 
         return (first - recursion);
+}
+
+public void calculate_by_window() {
+    pPositions[0] = 0;
+    pPositions[1] = 1;
+
+    int x = 1;
+    int candidate = pPositions[1];
+    int nextP = 2;
+
+    for (int i = 1; i < 500; i++) { // how many terms will we find the windows for
+        int current = pPositions[i];
+
+        double lower = pPositions[i - 1] * alpha;
+        double upper = pPositions[i] * alpha;
+
+        candidate = pPositions[nextP - 1];
+
+        while (candidate <= upper && nextP < 500) {
+            pPositions[nextP] = candidate + current;
+            candidate = pPositions[nextP];
+            nextP++;
+        }
+    }
 }
 
 public int figureOutLastP(int i) {
