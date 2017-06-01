@@ -48,11 +48,13 @@ public class CutOffs {
             }
 
         } else if (choice == 4) {
-            double cutoff_hyp = generateCutoffs(20);
+            double cutoff_hyp = generateCutoffs(50);
             boolean bool_cutoff;
             for (int i = 0; i < 100; i++) {
                 bool_cutoff = isCutoff(cutoff_hyp);
-                System.out.println(cutoff_hyp + " " + bool_cutoff);
+                String bool_str = "true";
+                if (!bool_cutoff) { bool_str = "         FALSE"; }
+                System.out.println(cutoff_hyp + " " + bool_str);
                 cutoff_hyp = generateCutoffs(cutoff_hyp + 0.01);
             }
         }
@@ -128,7 +130,7 @@ public class CutOffs {
         CalculatingPPostions high = new CalculatingPPostions(higher);
 
 
-        if (low.getPPositions()[300] == high.getPPositions()[300]) {
+        if (low.getPPositions()[CalculatingPPostions.NUM_RECORDED - 1] == high.getPPositions()[CalculatingPPostions.NUM_RECORDED - 1]) {
             return false; // the lower and obj equal each other, so its not a upper bound
         }
 
@@ -146,7 +148,7 @@ public class CutOffs {
         //int window = 10; // just a non 1 value to start with. EDIT: I actually don't understand how windows work. So for now...
         int current_postion;
 
-        while (i < current_alpha*10) {
+        while (i < current_alpha * 10) {
             current_postion = current_sequence[i];
 
             double upperBound = current_sequence[i] * current_alpha;
@@ -154,19 +156,11 @@ public class CutOffs {
 
             //window = 0;
             int x = i;
-            while (current_sequence[x] <= upperBound) {
-                /***
-                if (current_sequence[x] > lowerBound) {
-                    window++; // JUST BECAUSE WINDOW BECOMES ONE AT THIIISS TERM DOESNT MEAN WE'RE DONE.
-                }
-                **/
+            while (current_sequence[x] <= upperBound && x < CalculatingPPostions.NUM_RECORDED - 2) {
                 x++;
             } // current_sequence[x] is now the first one out of the window.
 
             double possible_alpha = ((double) (current_sequence[x])) / current_postion;
-            //System.out.println(current_sequence[x]);
-            //System.out.println(current_postion);
-            //System.out.println(possible_alpha);
 
             if (possible_alpha < minAlpha) {
                 minAlpha = possible_alpha;

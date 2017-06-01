@@ -10,10 +10,11 @@ private double alpha;     // alpha for this object CHANGE
 private int rec;
 
 public int indexOfLastP = 2;     // everytime there's a P postion, this number is incremented.
+final static public int NUM_RECORDED = 1000000;
 
 public CalculatingPPostions (double a) {
-        positions = new boolean[10000000];
-        pPositions = new int[500];
+        positions = new boolean[10];
+        pPositions = new int[NUM_RECORDED];
         lastKnownP = 0;
         distToP = 0;
         alpha = a;
@@ -82,7 +83,7 @@ public void calculate_by_window() {
     int candidate = pPositions[1];
     int nextP = 2;
 
-    for (int i = 1; i < 500; i++) { // how many terms will we find the windows for
+    for (int i = 1; i < NUM_RECORDED; i++) { // how many terms will we find the windows for
         int current = pPositions[i];
 
         double lower = pPositions[i - 1] * alpha;
@@ -90,7 +91,7 @@ public void calculate_by_window() {
 
         candidate = pPositions[nextP - 1];
 
-        while (candidate <= upper && nextP < 500) {
+        while (candidate <= upper && nextP < NUM_RECORDED) {
             pPositions[nextP] = candidate + current;
             candidate = pPositions[nextP];
             nextP++;
