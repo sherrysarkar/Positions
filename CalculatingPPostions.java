@@ -7,7 +7,7 @@ private int[] pPositions;     // List of all the pPositions
 private int lastKnownP;     //  For figureOutLastP(int i) - Given a numer i, what is the last known final P position?
 private int distToP;     // Distance to the last known final P position
 private double alpha;     // alpha for this object CHANGE
-private int rec;
+public int rec;
 
 public int indexOfLastP = 2;     // everytime there's a P postion, this number is incremented.
 final static public int NUM_RECORDED = 1000000;
@@ -19,8 +19,8 @@ public CalculatingPPostions (double a) {
         distToP = 0;
         alpha = a;
         calculate_by_window();
-        final int firstP = indexOfLastP - 1; final int secondP = indexOfLastP - 2;
-        rec = figureOutRecursion(firstP, secondP);
+        int rec_alpha = (int) alpha;
+        rec = figureOutRecursion(rec_alpha * 5,rec_alpha * 5 - 1);
 }
 
 public void calculatePositions() {
@@ -54,32 +54,10 @@ public void calculatePositions() {
         }
 }
 
-public String printRecursion() {
-        final int firstP = indexOfLastP - 1; final int secondP = indexOfLastP - 2;
-        int rec = figureOutRecursion(firstP, secondP);
-        String ans = firstP + " " + secondP + " " + rec + " ->> P_n = P_n - 1 + P_ n - " + rec;
-        return ans;
-}
-
-public int figureOutRecursion(int first, int second) {
-
-        int findValue = pPositions[first] - pPositions[second];
-        int recursion = 0;
-
-        for (int a = 0; a < pPositions.length; a++) {
-                if (pPositions[a]==findValue) {
-                        recursion = a;
-                }
-        }
-
-        return (first - recursion);
-}
-
 public void calculate_by_window() {
     pPositions[0] = 0;
     pPositions[1] = 1;
 
-    int x = 1;
     int candidate = pPositions[1];
     int nextP = 2;
 
@@ -99,30 +77,51 @@ public void calculate_by_window() {
     }
 }
 
-public int figureOutLastP(int i) {
-        int answer = 0;
-        for (int j = 0; j < i; j++) {
-                if (positions[j]) { //if it's a P position, then mark it
-                        answer = j;
+// RECURSION DERIVING RELATED //
+
+public double[] ratios() {
+    double[] ratio_list = new double[50];
+
+    return ratio_list;
+}
+
+////
+
+public int figureOutRecursion(int first, int second) {
+        
+        int findValue = pPositions[first] - pPositions[second];
+        int recursion = 0;
+
+        for (int a = first; a > 0; a--) {
+                if (pPositions[a]==findValue) {
+                        recursion = a;
                 }
         }
-        return answer;
+
+        return (first - recursion);
 }
+
+public String printRecursion() {
+        int rec_alpha = (int) alpha;
+        int rec = figureOutRecursion(rec_alpha * 5,rec_alpha * 5 - 1);
+        String ans = (rec_alpha * 5) + " " + (rec_alpha * 5 - 1) + " " + (rec_alpha * 5 - rec) + " ->> P_n = P_n - 1 + P_ n - " + rec;
+        return ans;
+}
+
+// RATIO RELATED
+
+
+
+//
+
+// SOME GETTER METHODS //
 
 public int[] getPPositions() {
         return pPositions;
 }
 
-public int getActualSize() {
-        return indexOfLastP;
-}
-
 public int getRecursion() {
         return rec;
-}
-
-public void setAlpha(double a) {
-        alpha = a;
 }
 
 }
