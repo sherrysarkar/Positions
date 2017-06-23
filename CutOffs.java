@@ -34,7 +34,8 @@ public class CutOffs {
         } else if (choice == 3) {
 
         } else if (choice == 4) {
-            double[] cutoff_hyp = generateCutoffs(8);
+            int starting_point = menu.nextInt();
+            double[] cutoff_hyp = generateCutoffs(starting_point);
             boolean bool_cutoff;
             for (int i = 0; i < 50; i++) {
                 System.out.println(cutoff_hyp[0] + "/" + cutoff_hyp[1] + " = " + cutoff_hyp[2]);
@@ -112,7 +113,7 @@ public class CutOffs {
     /*
     *   Generates the upper bound cutoff of a sequence determined by the
     *   specified alpha.
-    *   @param alpha : The specified alpha 
+    *   @param alpha : The specified alpha
     */
     public static double[] generateCutoffs(double current_alpha) {
         CalculatingPPostions current = new CalculatingPPostions(current_alpha);
