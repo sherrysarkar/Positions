@@ -34,7 +34,7 @@ public class CutOffs {
         } else if (choice == 3) {
 
         } else if (choice == 4) {
-            int starting_point = menu.nextInt();
+            double starting_point = menu.nextDouble();
             double[] cutoff_hyp = generateCutoffs(starting_point);
             boolean bool_cutoff;
             for (int i = 0; i < 50; i++) {
