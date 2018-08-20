@@ -37,8 +37,9 @@ public class CutOffs {
             double starting_point = menu.nextDouble();
             double[] cutoff_hyp = generateCutoffs(starting_point);
             boolean bool_cutoff;
-            for (int i = 0; i < 50; i++) {
-                System.out.println(cutoff_hyp[0] + "/" + cutoff_hyp[1] + " = " + cutoff_hyp[2]);
+            for (int i = 0; i < 10000; i++) {
+                System.out.println(cutoff_hyp[2]);
+                //System.out.println(cutoff_hyp[0] + "/" + cutoff_hyp[1] + " = " + cutoff_hyp[2]);
                 cutoff_hyp = generateCutoffs(cutoff_hyp[2]);
             }
         }
