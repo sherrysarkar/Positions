@@ -1,13 +1,15 @@
 import java.util.Scanner;
 
 public class CutOffs {
+
+    static double[] ratios = new double[50];
+    static Scanner menu = new Scanner(System.in);
+
     public static void main(String[] args) {
 
-        Scanner menu = new Scanner(System.in);
         System.out.println("hi pick one of the choices.");
         System.out.println("1. printPpositions()");
         System.out.println("2. determineSequences(lower, upper)");
-        System.out.println("3. testHypothesis");
         System.out.println("4. generateCutoffs");
         System.out.println();
 
@@ -30,42 +32,27 @@ public class CutOffs {
             }
 
         } else if (choice == 3) {
-            CalculatingPPostions obj;
-            double hypothesis;
-            double prevHypothesis = 0;
-
-            for (double x = 6.0; x < 9.0; x = x + 0.1) {
-                obj = new CalculatingPPostions(x);
-                hypothesis = testHypothesis(obj);
-                if (hypothesis != prevHypothesis) {
-                    if (isCutoff(hypothesis)) {
-                        System.out.println("SUCCESS" + hypothesis);
-                    } else {
-                        System.out.println("ANAMOLY DETECTED: " + hypothesis + "   " + x);
-                    }
-                }
-                prevHypothesis = hypothesis;
-            }
 
         } else if (choice == 4) {
-            double cutoff_hyp = generateCutoffs(50);
+            double starting_point = menu.nextDouble();
+            double[] cutoff_hyp = generateCutoffs(starting_point);
             boolean bool_cutoff;
-            for (int i = 0; i < 100; i++) {
-                bool_cutoff = isCutoff(cutoff_hyp);
-                String bool_str = "true";
-                if (!bool_cutoff) { bool_str = "         FALSE"; }
-                System.out.println(cutoff_hyp + " " + bool_str);
-                cutoff_hyp = generateCutoffs(cutoff_hyp + 0.01);
+            for (int i = 0; i < 10000; i++) {
+                System.out.println(cutoff_hyp[2]);
+                //System.out.println(cutoff_hyp[0] + "/" + cutoff_hyp[1] + " = " + cutoff_hyp[2]);
+                cutoff_hyp = generateCutoffs(cutoff_hyp[2]);
             }
         }
-
     }
 
+    /*
+    *   Prints the P positions of an alpha-game with the alpha the user
+    *   inputs.
+    */
     public static void printPpositions() {
-        Scanner scan = new Scanner(System.in);
-        double alpha = 1;
-        while(scan.hasNextDouble()) {
-            alpha = scan.nextDouble();
+        double alpha;
+        while(menu.hasNextDouble()) {
+            alpha = menu.nextDouble();
             CalculatingPPostions obj = new CalculatingPPostions(alpha);
             //System.out.println(obj.printRecursion());
 
@@ -78,11 +65,13 @@ public class CutOffs {
         }
     }
 
-    /**
-    * Given an interval of a recursive sequence, (for example, the interval for
-    * the sequence P_n = P_n-1 + P_n-7 is 4.333 < alpha <= 4.666), this method
-    * will find the secondary CutOffs within this interval.
-    **/
+    /*
+    *   Given an interval of a recursive sequence, (for example, the interval for
+    *   the sequence P_n = P_n-1 + P_n-7 is 4.333 < alpha <= 4.666), this method
+    *   will find the secondary CutOffs within this interval.
+    *   @param lower : the lower bound specified
+    *   @param upper : the upper bound specified
+    */
     public static double[] determineSequences (double lower, double upper) {
 
         double[] cutoffs = new double[5];
@@ -92,13 +81,10 @@ public class CutOffs {
 
         for (double i = lower + 0.001; i <= upper; i = i + 0.001 ) {
             tester = new CalculatingPPostions(i);
-
             if (tester.getPPositions()[20] != previous) {
                 cutoffs[counter] = i;
                 counter++;
             }
-
-            //System.out.println(previous + " , " + tester.getPPositions()[20] );
             previous = tester.getPPositions()[20];
         }
 
@@ -107,21 +93,9 @@ public class CutOffs {
     }
 
     /*
-    * The hypothesis was that the cutoffs were determined by the first time
-    * a sequence of P positions followed a steady recurrence. As it turns out,
-    * this hypothesis was FALSE.
+    *   Determines whether the specified alpha is a cutoff
+    *   @param alpha : the specified alpha
     */
-    public static double testHypothesis(CalculatingPPostions obj) {
-        int rec = obj.getRecursion() - 1;
-
-        for (int i = 0; i < obj.getPPositions().length - rec - 1; i++) {
-            if (obj.getPPositions()[i] + obj.getPPositions()[i + rec] == obj.getPPositions()[i + rec + 1]) {
-                return (double) (obj.getPPositions()[i + rec]) / obj.getPPositions()[i];  //obj.getPPositions()[i]
-            }
-        }
-        return 0;
-    }
-
     public static boolean isCutoff(double alpha) {
 
         double lower = alpha - 0.01;
@@ -131,21 +105,27 @@ public class CutOffs {
 
 
         if (low.getPPositions()[CalculatingPPostions.NUM_RECORDED - 1] == high.getPPositions()[CalculatingPPostions.NUM_RECORDED - 1]) {
-            return false; // the lower and obj equal each other, so its not a upper bound
+            return false;
         }
 
-        return true; // CHECKING!
+        return true;
     }
 
-    public static double generateCutoffs(double current_alpha) {
+    /*
+    *   Generates the upper bound cutoff of a sequence determined by the
+    *   specified alpha.
+    *   @param alpha : The specified alpha
+    */
+    public static double[] generateCutoffs(double current_alpha) {
         CalculatingPPostions current = new CalculatingPPostions(current_alpha);
+        double[] values = new double[3];
 
         double minAlpha = current_alpha + 10;
 
         int[] current_sequence = current.getPPositions();
 
         int i = 1;
-        //int window = 10; // just a non 1 value to start with. EDIT: I actually don't understand how windows work. So for now...
+
         int current_postion;
 
         while (i < current_alpha * 10) {
@@ -154,22 +134,32 @@ public class CutOffs {
             double upperBound = current_sequence[i] * current_alpha;
             double lowerBound = current_sequence[i - 1] * current_alpha;
 
-            //window = 0;
             int x = i;
             while (current_sequence[x] <= upperBound && x < CalculatingPPostions.NUM_RECORDED - 2) {
                 x++;
-            } // current_sequence[x] is now the first one out of the window.
+            }
 
             double possible_alpha = ((double) (current_sequence[x])) / current_postion;
 
+            if (i < ratios.length) {
+                ratios[i] = possible_alpha;
+            }
+
             if (possible_alpha < minAlpha) {
+
+                if (possible_alpha <= current_alpha) {
+                    return values;
+                }
+
                 minAlpha = possible_alpha;
+                values[0] = current_sequence[x];
+                values[1] = current_postion;
+                values[2] = minAlpha;
             }
             i++;
-            //System.out.println();
         }
 
-        return minAlpha;
+        return values;
 
     }
 
